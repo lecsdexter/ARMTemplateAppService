@@ -1,16 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "serverfarms_ASP_luciocanche_8235_name": {
-            "defaultValue": "ASP-luciocanche-8235",
-            "type": "String"
-        },
-        "sites_AppServicePipelineLC00799408_name": {
-            "defaultValue": "AppServicePipelineLC00799408",
-            "type": "String"
-        }
-    },
     "variables": {},
     "resources": [
         {
