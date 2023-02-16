@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "serverfarms_ASP_luciocanche_8235_name": {
-            "value": "ASP-luciocanche-8235"
+            "value": "ASP-luciocanche-8235-v2"
         },
         "sites_AppServicePipelineLC00799408_name": {
-            "value": "AppServicePipelineLC00799408"
+            "value": "AppServicePipelineLC00799408v2"
         }
     }
 }
