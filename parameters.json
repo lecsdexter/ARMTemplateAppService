@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_testghfgh_name": {
-            "value": null
+            "value": "My testghfgh website"
         },
         "serverfarms_ASP_luciocanche_8d0a_externalid": {
-            "value": null
+            "value": "My testghfgh website"
         }
     }
 }
