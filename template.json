@@ -2,12 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "serverfarms_ASP_luciocanche_8235_name": {
-            "defaultValue": "ASP-luciocanche-8235",
+        "sites_AppServiceForSlots_name": {
+            "defaultValue": "AppServiceForSlots",
             "type": "String"
         },
-        "sites_AppServicePipelineLC00799408_name": {
-            "defaultValue": "AppServicePipelineLC00799408",
+        "serverfarms_ASP_luciocanche_9b33_name": {
+            "defaultValue": "ASP-luciocanche-9b33",
             "type": "String"
         }
     },
@@ -16,14 +16,14 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2022-03-01",
-            "name": "[parameters('serverfarms_ASP_luciocanche_8235_name')]",
+            "name": "[parameters('serverfarms_ASP_luciocanche_9b33_name')]",
             "location": "East US",
             "sku": {
-                "name": "F1",
-                "tier": "Free",
-                "size": "F1",
-                "family": "F",
-                "capacity": 0
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
             },
             "kind": "app",
             "properties": {
@@ -42,27 +42,27 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-03-01",
-            "name": "[parameters('sites_AppServicePipelineLC00799408_name')]",
+            "name": "[parameters('sites_AppServiceForSlots_name')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_8235_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_9b33_name'))]"
             ],
             "kind": "app",
             "properties": {
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "appservicepipelinelc00799408.azurewebsites.net",
+                        "name": "appserviceforslots.azurewebsites.net",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "appservicepipelinelc00799408.scm.azurewebsites.net",
+                        "name": "appserviceforslots.scm.azurewebsites.net",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_8235_name'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_9b33_name'))]",
                 "reserved": false,
                 "isXenon": false,
                 "hyperV": false,
@@ -95,10 +95,10 @@
         {
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-03-01",
-            "name": "[concat(parameters('sites_AppServicePipelineLC00799408_name'), '/ftp')]",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/ftp')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServicePipelineLC00799408_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
             ],
             "properties": {
                 "allow": true
@@ -107,10 +107,10 @@
         {
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2022-03-01",
-            "name": "[concat(parameters('sites_AppServicePipelineLC00799408_name'), '/scm')]",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/scm')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServicePipelineLC00799408_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
             ],
             "properties": {
                 "allow": true
@@ -119,10 +119,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2022-03-01",
-            "name": "[concat(parameters('sites_AppServicePipelineLC00799408_name'), '/web')]",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/web')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServicePipelineLC00799408_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
             ],
             "properties": {
                 "numberOfWorkers": 1,
@@ -137,14 +137,15 @@
                     "index.php",
                     "hostingstart.html"
                 ],
-                "netFrameworkVersion": "v6.0",
+                "netFrameworkVersion": "v4.0",
                 "requestTracingEnabled": false,
                 "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
                 "httpLoggingEnabled": false,
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$AppServicePipelineLC00799408",
+                "publishingUsername": "$AppServiceForSlots",
                 "scmType": "None",
                 "use32BitWorkerProcess": true,
                 "webSocketsEnabled": false,
@@ -196,17 +197,372 @@
             }
         },
         {
-            "type": "Microsoft.Web/sites/hostNameBindings",
+            "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2022-03-01",
-            "name": "[concat(parameters('sites_AppServicePipelineLC00799408_name'), '/', parameters('sites_AppServicePipelineLC00799408_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/11678383936752')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServicePipelineLC00799408_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
             ],
             "properties": {
-                "siteName": "AppServicePipelineLC00799408",
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"SlotSwap\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"sourceSlot\":\"dev\",\"targetSlot\":\"production\"}",
+                "start_time": "2023-03-09T17:45:43.4636939Z",
+                "end_time": "2023-03-09T17:45:43.4636939Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/11678388382682')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 3,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"Deployment\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"buildProjectUrl\":\"https://dev.azure.com/1AppService/f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"repositoryUrl\":\"\",\"branch\":\"master\",\"teamProjectName\":\"DeploymentSlot\",\"slotName\":\"dev\"}",
+                "start_time": "2023-03-09T18:59:44.4330197Z",
+                "end_time": "2023-03-09T18:59:44.4330197Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/11678388950739')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"Deployment\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"buildProjectUrl\":\"https://dev.azure.com/1AppService/f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"repositoryUrl\":\"\",\"branch\":\"master\",\"teamProjectName\":\"DeploymentSlot\",\"slotName\":\"dev\"}",
+                "start_time": "2023-03-09T19:09:10.9615099Z",
+                "end_time": "2023-03-09T19:09:10.9615099Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/11678389047873')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"SlotSwap\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"sourceSlot\":\"dev\",\"targetSlot\":\"production\"}",
+                "start_time": "2023-03-09T19:11:01.8874271Z",
+                "end_time": "2023-03-09T19:11:01.8874271Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/', parameters('sites_AppServiceForSlots_name'), '.azurewebsites.net')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "siteName": "AppServiceForSlots",
                 "hostNameType": "Verified"
             }
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T17_55_46_5163923')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T18_55_46_5876915')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T19_55_46_6503164')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/slots",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]",
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_9b33_name'))]"
+            ],
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "appserviceforslots-dev.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "appserviceforslots-dev.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_luciocanche_9b33_name'))]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "vnetRouteAllEnabled": false,
+                "vnetImagePullEnabled": false,
+                "vnetContentShareEnabled": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": false,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 0
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "19023D0942B880CE20535D3F288CCE414CA556EDE0ABB60D7EE2870587D53F42",
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true,
+                "redundancyMode": "None",
+                "publicNetworkAccess": "Enabled",
+                "storageAccountRequired": false,
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/ftp')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/scm')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/config",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/web')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
+                "httpLoggingEnabled": false,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$appserviceforslots__dev",
+                "scmType": "VSTSRM",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetRouteAllEnabled": false,
+                "vnetPrivatePortsCount": 0,
+                "publicNetworkAccess": "Enabled",
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.2",
+                "ftpsState": "FtpsOnly",
+                "preWarmedInstanceCount": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 0,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/11678383823443')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"Deployment\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"buildProjectUrl\":\"https://dev.azure.com/1AppService/f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"repositoryUrl\":\"\",\"branch\":\"master\",\"teamProjectName\":\"DeploymentSlot\",\"slotName\":\"dev\"}",
+                "start_time": "2023-03-09T17:43:49.6646239Z",
+                "end_time": "2023-03-09T17:43:49.6646239Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/11678383936752')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"SlotSwap\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"sourceSlot\":\"dev\",\"targetSlot\":\"production\"}",
+                "start_time": "2023-03-09T17:45:49.3044957Z",
+                "end_time": "2023-03-09T17:45:49.3044957Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/11678389047873')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author": "Lucio Canche",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"SlotSwap\",\"commitId\":\"82ee634b3186fa3cd5a7f075fb0ff79c9cc94eed\",\"buildId\":\"35\",\"releaseId\":\"1\",\"buildNumber\":\"20230309.3\",\"releaseName\":\"Release-1\",\"repoProvider\":\"TfsGit\",\"repoName\":\"app-service-web-dotnet-get-started\",\"collectionUrl\":\"https://dev.azure.com/1AppService/\",\"teamProject\":\"f89cf5dd-1dae-49eb-a47d-9d110f23f9e7\",\"sourceSlot\":\"dev\",\"targetSlot\":\"production\"}",
+                "start_time": "2023-03-09T19:10:53.0929024Z",
+                "end_time": "2023-03-09T19:10:53.0929024Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/hostNameBindings",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/', parameters('sites_AppServiceForSlots_name'), '-dev.azurewebsites.net')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ],
+            "properties": {
+                "siteName": "appserviceforslots(dev)",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T17_55_46_5163923')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T18_55_46_5876915')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/slots/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T19_55_46_6503164')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
+            ]
         }
     ]
 }
