@@ -2,11 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "serverfarms_ASP_luciocanche_8235_name": {
-            "value": "ASP-luciocanche-8235-v2"
+        "sites_AppServiceForSlots_name": {
+            "value": "AppServiceForSlots"
         },
-        "sites_AppServicePipelineLC00799408_name": {
-            "value": "AppServicePipelineLC00799408v2"
+        "serverfarms_ASP_luciocanche_9b33_name": {
+            "value": "ASP-luciocanche-9b33"
         }
     }
 }
