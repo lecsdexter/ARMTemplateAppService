@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_AppServiceForSlots_name": {
-            "value": "AppServiceForSlots"
+            "value": "AppServiceWithSlots"
         },
         "serverfarms_ASP_luciocanche_9b33_name": {
-            "value": "ASP-luciocanche-9b33"
+            "value": "ASP-luciocanche-9b34"
         }
     }
 }
