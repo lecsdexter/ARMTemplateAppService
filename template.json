@@ -210,30 +210,6 @@
             }
         },
         {
-            "type": "Microsoft.Web/sites/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T17_55_46_5163923')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T18_55_46_5876915')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/2023-03-09T19_55_46_6503164')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
-        },
-        {
             "type": "Microsoft.Web/sites/slots",
             "apiVersion": "2022-03-01",
             "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev')]",
@@ -407,33 +383,6 @@
                 "siteName": "appserviceforslots(dev)",
                 "hostNameType": "Verified"
             }
-        },
-        {
-            "type": "Microsoft.Web/sites/slots/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T17_55_46_5163923')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites/slots/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T18_55_46_5876915')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites/slots/snapshots",
-            "apiVersion": "2015-08-01",
-            "name": "[concat(parameters('sites_AppServiceForSlots_name'), '/dev/2023-03-09T19_55_46_6503164')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/slots', parameters('sites_AppServiceForSlots_name'), 'dev')]",
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AppServiceForSlots_name'))]"
-            ]
         }
     ]
 }
